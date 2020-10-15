@@ -1,2 +1,2 @@
 # RossmanSalesPrediction
-ML Engineering Project for Mynt
+ML Engineering Project
