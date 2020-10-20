@@ -1,6 +1,7 @@
 from app import app
 from flask import Flask,jsonify,request
 from joblib import load
+import pickle
 import pandas as pd
 import os
 from app.processing import preprocess
@@ -25,8 +26,8 @@ def predict_sales(data):
 
 if __name__ == 'app.api':
    port = int(os.environ.get('PORT', 5000))
-   model = load("rfr.pkl") # Load model
-   print ('Model loaded')
    preprocessor = load("preprocessor.joblib") # Load preprocessor
    print("Preprocessor loaded")
+   model = pickle.load(open("rfr.pkl", 'rb')) # Load model
+   print ('Model loaded')
    app.run(host="0.0.0.0", port=port)
