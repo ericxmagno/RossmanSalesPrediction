@@ -5,6 +5,9 @@ import pandas as pd
 import os
 from app.processing import preprocess
 
+@app.route("/")
+def home():
+   return "Flask running."
 
 @app.route("/predict", methods=['POST'])
 def index():
