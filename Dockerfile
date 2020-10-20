@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster
+FROM python:3.8.6-slim-buster
 
 LABEL key="Eric" key="ericxmagno@gmail.com"
 
