@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster
+FROM python:3.7.9-slim-buster
 
 LABEL key="Eric" key="ericxmagno@gmail.com"
 
@@ -10,6 +10,4 @@ COPY . /app
 
 WORKDIR /app
 
-ENTRYPOINT [ "python" ]
-
-CMD [ "main.py" ]
+ENTRYPOINT [ "python main.py" ]
