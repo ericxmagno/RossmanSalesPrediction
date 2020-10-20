@@ -15,7 +15,7 @@ def index():
 def predict_sales(data):
    df = pd.DataFrame(data, index=[0])
    if df["Open"].iloc[0] == 0:
-      return 0
+      return [0]
    else:
       X = preprocess(df, preprocessor)
       return model.predict(X)
