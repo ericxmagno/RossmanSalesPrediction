@@ -25,6 +25,8 @@ Running the notebook creates 2 files: `RFR.pkl` and `preprocessor.joblib`
 **processing.py** - contains the logic for processing the POST json into data usable for prediction
 **validate.py** - contains the validator for the json file recieved by the api
 
+### Test file
+**test_flask.py** tests `/predict` endpoint through github actions prior to deployment
 
 ## How to run flask app locally
 `docker build -t flask-app:latest .`
