@@ -75,4 +75,5 @@ jobs:
         service: flask-service
         cluster: flask-cluster
         wait-for-service-stability: true
+        force-new-deployment: true
     
