@@ -2,6 +2,8 @@ import unittest
 import json
 
 from joblib import load 
+import os
+os.environ['TEST_RUNNING'] = 'True'
 
 from app import app
 

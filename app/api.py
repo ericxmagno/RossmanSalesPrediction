@@ -1,7 +1,5 @@
-import os
-import pickle
-
 import pandas as pd
+import sys
 from flask import Flask, jsonify, request
 from joblib import load
 
@@ -35,8 +33,11 @@ def predict_sales(data):
       return model.predict(X)
 
 if __name__ == 'app.api':
-   print('##### Loading outside of __main__ #####')
+   print("--- Starting Flask ----")
    model = load("rfr.pkl") # Load model
    print ('###### Model loaded #####')
    preprocessor = load("preprocessor.joblib") # Load preprocessor
    print("##### Preprocessor loaded #####")
+   import os
+   if not os.environ.get('TEST_RUNNING', '') == 'True':
+      app.run(host="0.0.0.0", port=5000)
