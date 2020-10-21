@@ -18,7 +18,10 @@ Running the notebook creates 2 files: `RFR.joblib` and `preprocessor.joblib`
 These files must be manually moved from "/notebooks" to main directory prior to running flask app.
 
 ### Flask app (/app)
-`docker build -t flaskapp:latest .`
-`docker run -d -p 5000:5000 flaskapp`
 **api.py** - contains the api endpoint `/predict`
 **processing.py** - contains the logic for processing the POST json into data usable for prediction
+
+
+## How to run locally
+`docker build -t flask-app:latest .`
+`docker run -d --publish 8888:5000 flask-app`
