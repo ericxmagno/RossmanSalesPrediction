@@ -1,55 +1,63 @@
-from app import app
-import pandas as pd
+import logging
+
 import numpy as np
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.compose import ColumnTransformer
+import pandas as pd
 from joblib import load
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+from app import app
+
 
 def preprocess(data, preprocessor):
-    # Import store.csv
-    df_store_dtypes = {"Store": int, 
-                        "StoreType": "str",
-                        "Assortment": "str",
-                        "PromoInterval": "str"}
-    df_store = pd.read_csv("data/store.csv", dtype=df_store_dtypes)
+    try:
+        # Import store.csv
+        df_store_dtypes = {"Store": int, 
+                            "StoreType": "str",
+                            "Assortment": "str",
+                            "PromoInterval": "str"}
+        df_store = pd.read_csv("data/store.csv", dtype=df_store_dtypes)
 
-    # Parse date column
-    data['Date']  = pd.to_datetime(data['Date'])
-    # Add date parameters
-    data = add_date_parameters(data)
+        # Parse date column
+        data['Date']  = pd.to_datetime(data['Date'])
+        # Add date parameters
+        data = add_date_parameters(data)
 
-    # Reorder columns (needed for ColumnTransformer)
-    data = data[['Store', 'Customers', 'Open', 'Promo',
-       'StateHoliday', 'SchoolHoliday', 'saleYear', 'saleMonth',
-       'saleDayOfYear', 'saleDayOfWeek', 'saleWeekOfYear']]
+        # Reorder columns (needed for ColumnTransformer)
+        data = data[['Store', 'Customers', 'Open', 'Promo',
+        'StateHoliday', 'SchoolHoliday', 'saleYear', 'saleMonth',
+        'saleDayOfYear', 'saleDayOfWeek', 'saleWeekOfYear']]
 
-    # Drop Open column
-    data = data.drop("Open", axis=1)
+        # Drop Open column
+        data = data.drop("Open", axis=1)
 
-    # Join dataframes if Store exists in df_store
-    if data["Store"].iloc[0] in df_store["Store"].unique():
-        df = data.join(df_store.set_index('Store'), on='Store')
-    # Else use computed values for df_store columns
-    else:
-        df = no_matching_store(data, df_store)
+        # Join dataframes if Store exists in df_store
+        if data["Store"].iloc[0] in df_store["Store"].unique():
+            df = data.join(df_store.set_index('Store'), on='Store')
+        # Else use computed values for df_store columns
+        else:
+            df = no_matching_store(data, df_store)
 
-    # Create HasCompetition Column
-    df['HasCompetition'] = df.apply(competition, axis=1)
-    # Drop old competition columns
-    df = df.drop(columns=["CompetitionOpenSinceMonth", "CompetitionOpenSinceYear"])
+        # Create HasCompetition Column
+        df['HasCompetition'] = df.apply(competition, axis=1)
+        # Drop old competition columns
+        df = df.drop(columns=["CompetitionOpenSinceMonth", "CompetitionOpenSinceYear"])
 
-    # Create HasPromo2 Column
-    df["HasPromo2"] = df.apply(promo, axis=1)
-    # Drop irrelevant columns (Promo2 related, Date, Index)
-    df = df.drop(columns=["Promo2", "Promo2SinceWeek", "Promo2SinceYear", "PromoInterval"])
+        # Create HasPromo2 Column
+        df["HasPromo2"] = df.apply(promo, axis=1)
+        # Drop irrelevant columns (Promo2 related, Date, Index)
+        df = df.drop(columns=["Promo2", "Promo2SinceWeek", "Promo2SinceYear", "PromoInterval"])
 
-    # Parse category columns
-    df = convert_to_category(df)
+        # Parse category columns
+        df = convert_to_category(df)
 
-    # Scale and OneHotEncode features
-    data = preprocess_X(df, preprocessor)
+        # Scale and OneHotEncode features
+        data = preprocess_X(df, preprocessor)
 
-    return data
+        return data
+    except:
+        logging.error("Error preprocessing data.")
+
 
 
 def add_date_parameters(dframe):

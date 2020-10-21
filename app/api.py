@@ -1,10 +1,14 @@
-from app import app
-from flask import Flask,jsonify,request
-from joblib import load
-import pickle
-import pandas as pd
 import os
+import pickle
+
+import pandas as pd
+from flask import Flask, jsonify, request
+from joblib import load
+
+from app import app
 from app.processing import preprocess
+from app.validate import validateJson
+
 
 @app.route("/")
 def home():
@@ -12,9 +16,15 @@ def home():
 
 @app.route("/predict", methods=['POST'])
 def index():
-   data = request.get_json()
-   sales = predict_sales(data)
-   return jsonify({"sales": sales[0]})
+   try:
+      data = request.get_json()
+      if validateJson(data):
+         sales = predict_sales(data)
+         return jsonify({"sales": sales[0]})
+      else:
+         return jsonify({"error": "invalid json"})
+   except Exception as e:
+      return jsonify({"error": e.message})
 
 def predict_sales(data):
    df = pd.DataFrame(data, index=[0])
