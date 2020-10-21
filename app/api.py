@@ -25,9 +25,8 @@ def predict_sales(data):
       return model.predict(X)
 
 if __name__ == 'app.api':
-   port = int(os.environ.get('PORT', 5000))
+   model = load("rfr.pkl") # Load model
+   print ('Model loaded')
    preprocessor = load("preprocessor.joblib") # Load preprocessor
    print("Preprocessor loaded")
-   model = pickle.load(open("rfr.pkl", 'rb')) # Load model
-   print ('Model loaded')
-   app.run(host="0.0.0.0", port=port)
+   app.run(host="0.0.0.0", port=5000)

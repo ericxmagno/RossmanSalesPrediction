@@ -10,4 +10,8 @@ COPY . /app
 
 WORKDIR /app
 
-ENTRYPOINT [ "python main.py" ]
+EXPOSE 5000
+
+ENTRYPOINT [ "python" ]
+
+CMD ["main.py"]

@@ -1,5 +1,5 @@
 import requests
-r = requests.post('http://127.0.0.1:5000//predict', json = {
+r = requests.post('http://18.141.207.232:8888//predict', json = {
 "Store":1111,
 "DayOfWeek":4,
 "Date":"2014-07-10",
