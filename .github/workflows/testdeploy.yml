@@ -23,6 +23,8 @@ jobs:
       run: |
         python test_flask.py
   deploy:
+    if: ${{ github.ref == 'master' }}
+    needs: test
     name: Deploy
     runs-on: ubuntu-latest
 
