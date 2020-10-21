@@ -78,5 +78,5 @@ jobs:
 #         force-new-deployment: true
     - name: Force deployment
       run: |
-        aws ecs update-service --cluster flask_cluster --service flask_service --force-new-deployment
+        aws ecs update-service --cluster flask-cluster --service flask-service --force-new-deployment
     
