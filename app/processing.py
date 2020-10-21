@@ -64,7 +64,7 @@ def add_date_parameters(dframe):
     dframe["saleYear"] = dframe.Date.dt.year
     dframe["saleMonth"] = dframe.Date.dt.month
     dframe["saleDayOfYear"] = dframe.Date.dt.dayofyear
-    dframe["saleWeekOfYear"] = dframe.Date.dt.weekofyear
+    dframe["saleWeekOfYear"] = dframe.Date.dt.isocalendar().week
     dframe = dframe.rename(columns={"DayOfWeek": "saleDayOfWeek"})
 
     # Drop date column

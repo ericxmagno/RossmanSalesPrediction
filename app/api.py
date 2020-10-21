@@ -35,8 +35,8 @@ def predict_sales(data):
       return model.predict(X)
 
 if __name__ == 'app.api':
+   print('##### Loading outside of __main__ #####')
    model = load("rfr.pkl") # Load model
-   print ('Model loaded')
+   print ('###### Model loaded #####')
    preprocessor = load("preprocessor.joblib") # Load preprocessor
-   print("Preprocessor loaded")
-   app.run(host="0.0.0.0", port=5000)
+   print("##### Preprocessor loaded #####")
