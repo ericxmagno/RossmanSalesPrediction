@@ -68,12 +68,15 @@ jobs:
         container-name: flask-container
         image: ${{ steps.build-image.outputs.image }}
 
-    - name: Deploy Amazon ECS task definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: flask-service
-        cluster: flask-cluster
-        wait-for-service-stability: true
-        force-new-deployment: true
+#     - name: Deploy Amazon ECS task definition
+#       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#       with:
+#         task-definition: ${{ steps.task-def.outputs.task-definition }}
+#         service: flask-service
+#         cluster: flask-cluster
+#         wait-for-service-stability: true
+#         force-new-deployment: true
+    - name: Force deployment
+      run: |
+        aws ecs update-service --cluster flask_cluster --service flask_service --force-new-deployment
     
